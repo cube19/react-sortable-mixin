@@ -32,9 +32,6 @@ function selectorTest(el, selector) {
 }
 
 var listMixin = {
-  getInitialState: function() {
-    return {items: this.props.list || []};
-  },
   componentWillMount: function() {
     // Set movable props
     // This should transfer to `ItemComponent` in `ListComponent`
@@ -162,16 +159,15 @@ var listMixin = {
   },
   resort: function(oldPosition, newPosition) {
     var items, movedItem;
-    if (oldPosition !== newPosition) {
+      if (oldPosition !== newPosition) {
       if(this.onGetItems)
         items = this.onGetItems();
       else
-        items = this.state.items;
+        throw ("onGetItems is not set!");
       // First: remove item from old position
       movedItem = items.splice(oldPosition, 1)[0];
       // Then add to new position
       items.splice(newPosition, 0, movedItem);
-//      this.setState({'items': items});
       if (this.onResorted) {
         this.onResorted(items, oldPosition, newPosition);
       }
