@@ -70,6 +70,7 @@ var listMixin = {
     moveElem.parentElement.style.position = 'relative';
     moveElem.style.position = 'absolute';
     moveElem.style.zIndex = '100';
+    moveElem.style.zIndex = '100';
     // Keep the initialized position in DOM
     moveElem.style.left = (moveElemPosition.left - parentPosition.left) + 'px';
     moveElem.style.top = (moveElemPosition.top - parentPosition.top) + 'px';
@@ -91,8 +92,16 @@ var listMixin = {
       if (left > maxOffset) {
         left = maxOffset;
       }
-      moveElem.style.left = left + 'px';
-      moveElem.style.top = top + 'px';
+
+      //Movement Contstrain
+      if (typeof this.props.dragY == "undefined" || (typeof this.props.dragY == "boolean" && this.props.dragY)) {
+        moveElem.style.top = top + 'px';
+      }
+
+      if (typeof this.props.dragX == "undefined" || (typeof this.props.dragX == "boolean" && this.props.dragX)) {
+        moveElem.style.left = left + 'px';
+      }
+
       // Loop all siblings to find intersected sibling
       siblings = moveElem.parentElement.children;
       for (i = 0, len = siblings.length; i < len; i++) {
