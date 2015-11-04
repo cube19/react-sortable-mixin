@@ -7,7 +7,7 @@ A mixin for React to creat a sortable(drag and move) List Component.
 
 ## Install
 
-`npm install --save-dev react-sortable-mixin`
+`npm i --save git+https://git@github.com/chemisax/react-sortable-mixin.git`
 
 ## Usage
 
@@ -24,7 +24,7 @@ Example code:
 
 ```javascript
 var React = require('react');
-var sortable = require('react-sortable-mixin');
+var sortable = require('react-sortable-mixin2');
 
 // Item Component use `ItemMixin`
 var Item = React.createClass({
