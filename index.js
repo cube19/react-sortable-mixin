@@ -94,11 +94,11 @@ var listMixin = {
       }
 
       //Movement Contstrain
-      if (typeof this.props.dragY == "undefined" || (typeof this.props.dragY == "boolean" && this.props.dragY)) {
+      if (typeof this.props.settings.dragY == "undefined" || (typeof this.props.settings.dragY == "boolean" && this.props.settings.dragY)) {
         moveElem.style.top = top + 'px';
       }
 
-      if (typeof this.props.dragX == "undefined" || (typeof this.props.dragX == "boolean" && this.props.dragX)) {
+      if (typeof this.props.settings.dragX == "undefined" || (typeof this.props.settings.dragX == "boolean" && this.props.settings.dragX)) {
         moveElem.style.left = left + 'px';
       }
 
