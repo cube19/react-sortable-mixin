@@ -1,9 +1,8 @@
 react-sortable-mixin
 ====================
-Based on [react-sortable-mixin](https://github.com/hulufei/react-sortable-mixin)
+Based on [react-sortable-mixin2](https://github.com/ganeshp0001/react-sortable-mixin)
 
 A mixin for React to creat a sortable(drag and move) List Component.
-[Demo](http://hulufei.github.io/react-sortable-mixin/demo/)
 
 ## Install
 
