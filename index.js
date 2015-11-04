@@ -1,18 +1,10 @@
-
 /*
-Change log:
-  1. Added handler for drag init (Done)
-  2. Removed "items" key name dependancy,
-  (DONE: now if you are not providint items array, you can add onGetItems call back to return your array to be sorted)
-  3. Add container bounds for drag
-  4. onResort method now gets three values: items, oldPosition, newPosition
-  5. Add touch event handlers (DONE)
-  6. Updating state moved to List component (DONE)
-  7. Need to fix two issues created on main repo
-*/
+ Change log:
+ 1. Aded ReactDom.
+ 2. Changed getDOMNode() with ReactDOM.findDOMNode()
+ */
 
 var ReactDOM = require('react-dom');
-console.log(reactDOM);
 
 /* UTIL FUNCTIONS */
 // @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
@@ -23,19 +15,19 @@ function findInArray(array, callback) {
 }
 
 function isFunction(func) {
-return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]';
+  return typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]';
 }
 
 function selectorTest(el, selector) {
   var matchesSelectorFunc = findInArray([
-      'matches',
-      'webkitMatchesSelector',
-      'mozMatchesSelector',
-      'msMatchesSelector',
-      'oMatchesSelector'
-    ], function(method){
-      return isFunction(el[method]);
-    });
+    'matches',
+    'webkitMatchesSelector',
+    'mozMatchesSelector',
+    'msMatchesSelector',
+    'oMatchesSelector'
+  ], function(method){
+    return isFunction(el[method]);
+  });
   return el[matchesSelectorFunc].call(el, selector);
 }
 
@@ -53,25 +45,25 @@ var listMixin = {
     };
   },
   getClientForEvent: function(e, key){
-      if(e.type.search('touch') > -1){
-        e.preventDefault();
-        return e.touches[0][key];
-      }else{
-        return e[key];
-      }
+    if(e.type.search('touch') > -1){
+      e.preventDefault();
+      return e.touches[0][key];
+    }else{
+      return e[key];
+    }
   },
   // movedComponent: component to move
   // moveElemEvent: mouse event object triggered on moveElem
   bindMove: function(movedComponent, moveElemEvent) {
     //Add options to work without compulsary state "items" condition
-    var moveElem = movedComponent.getDOMNode()
+    var moveElem = ReactDOM.findDOMNode(movedComponent)
       , placeholder = movedComponent.placeholder
       , parentPosition = moveElem.parentElement.getBoundingClientRect()
       , moveElemPosition = moveElem.getBoundingClientRect()
       , viewport = document.body.getBoundingClientRect()
       , maxOffset = viewport.right - parentPosition.left - moveElemPosition.width
-      // , offsetX = moveElemEvent.clientX - moveElemPosition.left
-      // , offsetY = moveElemEvent.clientY - moveElemPosition.top;
+    // , offsetX = moveElemEvent.clientX - moveElemPosition.left
+    // , offsetY = moveElemEvent.clientY - moveElemPosition.top;
       , offsetX = this.getClientForEvent( moveElemEvent, 'clientX') - moveElemPosition.left
       , offsetY = this.getClientForEvent( moveElemEvent, 'clientY') - moveElemPosition.top;
 
@@ -109,12 +101,12 @@ var listMixin = {
       for (i = 0, len = siblings.length; i < len; i++) {
         sibling = siblings[i];
         if (sibling !== this.intersectItem &&
-            sibling !== moveElem) {
+          sibling !== moveElem) {
           compareRect = sibling.getBoundingClientRect();
           if (clientX > compareRect.left &&
-              clientX < compareRect.right &&
-              clientY > compareRect.top &&
-              clientY < compareRect.bottom) {
+            clientX < compareRect.right &&
+            clientY > compareRect.top &&
+            clientY < compareRect.bottom) {
             if (sibling !== placeholder) {
               movedComponent.insertPlaceHolder(sibling);
             }
@@ -151,17 +143,17 @@ var listMixin = {
     // To make handler removable, DO NOT `.bind(this)` here, because
     // > A new function reference is created after .bind() is called!
     if (movedComponent.movable) {
-      this.getDOMNode().addEventListener('mousemove', this.moveHandler);
-      this.getDOMNode().addEventListener('touchmove', this.moveHandler);
+      ReactDOM.findDOMNode(this).addEventListener('mousemove', this.moveHandler);
+      ReactDOM.findDOMNode(this).addEventListener('touchmove', this.moveHandler);
     }
     // Bind to `document` to be more robust
     document.addEventListener('mouseup', this.mouseupHandler);
     document.addEventListener('touchend', this.mouseupHandler);
   },
   unbindMove: function() {
-    this.getDOMNode().removeEventListener('mousemove', this.moveHandler);
+    ReactDOM.findDOMNode(this).removeEventListener('mousemove', this.moveHandler);
     document.removeEventListener('mouseup', this.mouseupHandler);
-    this.getDOMNode().removeEventListener('touchmove', this.moveHandler);
+    ReactDOM.findDOMNode(this).removeEventListener('touchmove', this.moveHandler);
     document.removeEventListener('touchend', this.mouseupHandler);
     this.intersectItem = null;
     if (this.onMoveEnd) {
@@ -189,8 +181,8 @@ var listMixin = {
 
 var itemMixin = {
   componentDidMount: function() {
-    this.getDOMNode().addEventListener('mousedown', this.moveSetup);
-    this.getDOMNode().addEventListener('touchstart', this.moveSetup);
+    ReactDOM.findDOMNode(this).addEventListener('mousedown', this.moveSetup);
+    ReactDOM.findDOMNode(this).addEventListener('touchstart', this.moveSetup);
     this.setMovable(true);
   },
   insertPlaceHolder: function(el) {
@@ -200,10 +192,10 @@ var itemMixin = {
       , elIndex = Array.prototype.indexOf.call(parentEl.children, el)
       , newIndex = Array.prototype.indexOf.call(parentEl.children, this.placeholder);
     parentEl.insertBefore(this.placeholder,
-                          newIndex > elIndex ? el : el.nextSibling);
+      newIndex > elIndex ? el : el.nextSibling);
   },
   createPlaceHolder: function(el) {
-    el = el || this.getDOMNode();
+    el = el || ReactDOM.findDOMNode(this);
     this.placeholder = el.cloneNode(true);
     this.placeholder.style.opacity = '0';
   },
@@ -211,7 +203,7 @@ var itemMixin = {
     if(this.props.handle && !selectorTest(e.target, this.props.handle)){
       return;
     }
-    var el = this.getDOMNode();
+    var el = ReactDOM.findDOMNode(this);
     this.createPlaceHolder(el);
 
     this.props.bindMove(this, e);
