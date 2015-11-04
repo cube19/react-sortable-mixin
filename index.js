@@ -1,3 +1,4 @@
+
 /*
 Change log:
   1. Added handler for drag init (Done)
@@ -9,6 +10,9 @@ Change log:
   6. Updating state moved to List component (DONE)
   7. Need to fix two issues created on main repo
 */
+
+var ReactDOM = require('react-dom');
+console.log(reactDOM);
 
 /* UTIL FUNCTIONS */
 // @credits https://gist.github.com/rogozhnikoff/a43cfed27c41e4e68cdc
