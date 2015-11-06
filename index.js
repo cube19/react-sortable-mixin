@@ -62,14 +62,21 @@ var listMixin = {
     // , offsetX = moveElemEvent.clientX - moveElemPosition.left
     // , offsetY = moveElemEvent.clientY - moveElemPosition.top;
       , offsetX = this.getClientForEvent( moveElemEvent, 'clientX') - moveElemPosition.left
-      , offsetY = this.getClientForEvent( moveElemEvent, 'clientY') - moveElemPosition.top;
+      , offsetY = this.getClientForEvent( moveElemEvent, 'clientY') - moveElemPosition.top
+      , savedInlineStyles = {};
+
+    savedInlineStyles = {
+      position: moveElem.style.position,
+      zIndex: moveElem.style.zIndex,
+      left: moveElem.style.left,
+      top: moveElem.style.top
+    };
 
     // (Keep width) currently manually set in `onMoveBefore` if necessary,
     // due to unexpected css box model
     // moveElem.style.width = moveElem.offsetWidth + 'px';
     moveElem.parentElement.style.position = 'relative';
     moveElem.style.position = 'absolute';
-    moveElem.style.zIndex = '100';
     moveElem.style.zIndex = '100';
     // Keep the initialized position in DOM
     moveElem.style.left = (moveElemPosition.left - parentPosition.left) + 'px';
@@ -140,7 +147,10 @@ var listMixin = {
       }
 
       // Clean DOM
-      el.removeAttribute('style');
+      el.style.position = savedInlineStyles.position;
+      el.style.zIndex = savedInlineStyles.zIndex;
+      el.style.left = savedInlineStyles.left;
+      el.style.top = savedInlineStyles.top;
       parentElem.removeChild(placeholder);
 
       this.unbindMove();
