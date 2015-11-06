@@ -94,6 +94,7 @@ var listMixin = {
       }
 
       //Movement Contstrain
+      var settings = this.props.settings || {};
       if (typeof this.props.settings.dragY == "undefined" || (typeof this.props.settings.dragY == "boolean" && this.props.settings.dragY)) {
         moveElem.style.top = top + 'px';
       }
