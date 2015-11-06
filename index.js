@@ -212,8 +212,10 @@ var itemMixin = {
   },
   createPlaceHolder: function(el) {
     el = el || ReactDOM.findDOMNode(this);
-    this.placeholder = el.cloneNode(true);
+    this.placeholder = el.cloneNode(false);
+    this.placeholder.removeAttribute('data-reactid');
     this.placeholder.style.opacity = '0';
+    this.placeholder.style.height = el.offsetHeight + 'px';
   },
   moveSetup: function(e) {
     if(this.props.handle && !selectorTest(e.target, this.props.handle)){
