@@ -95,11 +95,11 @@ var listMixin = {
 
       //Movement Contstrain
       var settings = this.props.settings || {};
-      if (typeof this.props.settings.dragY == "undefined" || (typeof this.props.settings.dragY == "boolean" && this.props.settings.dragY)) {
+      if (typeof settings.dragY == "undefined" || (typeof settings.dragY == "boolean" && settings.dragY)) {
         moveElem.style.top = top + 'px';
       }
 
-      if (typeof this.props.settings.dragX == "undefined" || (typeof this.props.settings.dragX == "boolean" && this.props.settings.dragX)) {
+      if (typeof settings.dragX == "undefined" || (typeof settings.dragX == "boolean" && settings.dragX)) {
         moveElem.style.left = left + 'px';
       }
 
