@@ -179,11 +179,8 @@ var listMixin = {
   },
   resort: function(oldPosition, newPosition) {
     var items, movedItem;
-      if (oldPosition !== newPosition) {
-      if(this.onGetItems)
-        items = this.onGetItems();
-      else
-        throw ("onGetItems is not set!");
+    if (oldPosition !== newPosition) {
+      items = this.getItems();
       // First: remove item from old position
       movedItem = items.splice(oldPosition, 1)[0];
       // Then add to new position
