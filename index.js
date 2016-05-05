@@ -1,8 +1,3 @@
-/*
- Change log:
- 1. Aded ReactDom.
- 2. Changed getDOMNode() with ReactDOM.findDOMNode()
- */
 
 var ReactDOM = require('react-dom');
 
