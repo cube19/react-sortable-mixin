@@ -151,7 +151,11 @@ var listMixin = {
       el.style.zIndex = savedInlineStyles.zIndex;
       el.style.left = savedInlineStyles.left;
       el.style.top = savedInlineStyles.top;
-      parentElem.removeChild(placeholder);
+      try {
+        parentElem.removeChild(placeholder);
+      } catch (e) {
+        // prevent error when placeholder vanishes before this remove call
+      }
 
       this.unbindMove();
       this.resort(movedComponent.props.index, newIndex);
